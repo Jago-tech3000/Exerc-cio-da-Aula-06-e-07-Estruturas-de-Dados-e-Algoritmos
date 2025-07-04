@@ -1,0 +1,30 @@
+class Fila:
+    def __init__(self):
+        self.itens = []
+
+    def enqueue(self, item):
+        self.itens.append(item)
+
+    def dequeue(self):
+        return self.itens.pop(0) if self.itens else None
+
+    def estado_fila(self):
+        print(f"Fila: {', '.join(self.itens) or 'Vazia'}")
+
+# Funções de simulação
+fila = Fila()
+
+# Adicionar e atender clientes
+for cliente in ["Cliente 1", "Cliente 2", "Cliente 3"]:
+    fila.enqueue(cliente)
+    fila.estado_fila()
+
+fila.dequeue()
+fila.estado_fila()
+
+fila.enqueue("Cliente 4")
+fila.estado_fila()
+
+while fila.itens:
+    fila.dequeue()
+    fila.estado_fila()
