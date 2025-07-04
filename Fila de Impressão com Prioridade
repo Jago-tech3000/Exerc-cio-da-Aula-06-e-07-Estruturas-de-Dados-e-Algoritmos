@@ -1,0 +1,42 @@
+class FilaDePrioridade:
+    def __init__(self):
+        self.fila = []
+
+    def enqueue(self, dado, prioridade):
+        self.fila.append((prioridade, dado))
+        self.fila.sort() 
+
+    def dequeue(self):
+        return self.fila.pop(0)[1] if self.fila else None
+
+    def exibir_fila(self):
+        return [item[1] for item in self.fila]
+
+
+def menu():
+    fila = FilaDePrioridade()
+
+    while True:
+        opcao = input("\n1. Adicionar item\n2. Remover item\n3. Exibir fila\n4. Sair\nEscolha: ")
+
+        if opcao == "1":
+            dado = input("Nome do item: ")
+            prioridade = int(input("Prioridade (quanto menor, maior a prioridade): "))
+            fila.enqueue(dado, prioridade)
+            print(f"'{dado}' adicionado com prioridade {prioridade}.")
+
+        elif opcao == "2":
+            item = fila.dequeue()
+            print(f"'{item}' removido." if item else "Fila vazia!")
+
+        elif opcao == "3":
+            itens = fila.exibir_fila()
+            print("Fila atual:", ", ".join(itens) if itens else "Fila vazia!")
+
+        elif opcao == "4":
+            print("Saindo...")
+            break
+
+        else:
+            print("Opção inválida.")
+menu()
