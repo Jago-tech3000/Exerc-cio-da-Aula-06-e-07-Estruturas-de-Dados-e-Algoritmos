@@ -1,0 +1,78 @@
+class Pilha:
+    def __init__(self):
+        self.itens = []
+
+    def push(self, dado):
+        self.itens.append(dado)
+
+    def pop(self):
+        if self.is_empty():
+            return None
+        return self.itens.pop()
+
+    def is_empty(self):
+        return len(self.itens) == 0
+
+class Navegador:
+    def __init__(self, pagina_inicial):
+        self.historico_voltar = Pilha()
+        self.historico_avancar = Pilha()
+        self.pagina_atual = pagina_inicial
+        print(f"Navegador iniciado em: {self.pagina_atual}")
+
+    def visitar_pagina(self, url):
+        # Adiciona a página atual no histórico de "voltar"
+        self.historico_voltar.push(self.pagina_atual)
+        # Define a nova página como a página atual
+        self.pagina_atual = url
+        # Limpa o histórico de "avançar", pois não há páginas para avançar
+        self.historico_avancar = Pilha()
+        print(f"Visitando: {self.pagina_atual}")
+
+    def voltar(self):
+        if not self.historico_voltar.is_empty():
+            # Move a página atual para o histórico de "avançar"
+            self.historico_avancar.push(self.pagina_atual)
+            # Desempilha do histórico de "voltar" e define como a página atual
+            self.pagina_atual = self.historico_voltar.pop()
+            print(f"Voltando para: {self.pagina_atual}")
+        else:
+            print("Não há páginas no histórico para voltar.")
+
+    def avancar(self):
+        if not self.historico_avancar.is_empty():
+            # Move a página atual para o histórico de "voltar"
+            self.historico_voltar.push(self.pagina_atual)
+            # Desempilha do histórico de "avançar" e define como a página atual
+            self.pagina_atual = self.historico_avancar.pop()
+            print(f"Avançando para: {self.pagina_atual}")
+        else:
+            print("Não há páginas no histórico para avançar.")
+
+# Função Menu Interativo do Histórico de Navegação
+def menu_interativo():
+    navegador = Navegador("Página Inicial")
+    
+    while True:
+        print("\nEscolha uma ação:")
+        print("1 - Visitar uma nova página")
+        print("2 - Voltar para a página anterior")
+        print("3 - Avançar para a próxima página")
+        print("4 - Sair")
+
+        escolha = input("Digite o número da opção desejada: ")
+
+        if escolha == "1":
+            url = input("Digite a URL da página que deseja visitar: ")
+            navegador.visitar_pagina(url)
+        elif escolha == "2":
+            navegador.voltar()
+        elif escolha == "3":
+            navegador.avancar()
+        elif escolha == "4":
+            print("Saindo do navegador...")
+            break
+        else:
+            print("Opção inválida! Tente novamente.")
+
+menu_interativo()
